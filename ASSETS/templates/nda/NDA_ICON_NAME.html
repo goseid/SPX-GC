@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+
+    (C) 2020 tuomo@smartpx.fi (MIT License)
+    Demo template for SPX-GC. See SPXGCTemplateDefinition -object below for data field descriptions.
+
+    This demo template does not have linked properties so all layers remain in their positions and
+    do not "make space" for others.
+
+    This template demonstrates a use of a dropdown selector to pick an icon. The same approach
+    can be used to drive other aspects of templates: colors, optional elements, animations, logos,
+    host names, yes/no options etc...
+
+    Need custom templates?
+    Let me know 😀
+
+-->
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>INFOLEFT</title>
+    <script type="text/javascript" src="../smartpx/Template_Pack_1/js/gsap3.2.6.min.js"></script>
+    <script type="text/javascript" src="../smartpx/Template_Pack_1/js/webcg-framework.umd.js"></script>
+    <script type="text/javascript" src="../smartpx/Template_Pack_1/js/spx_cmdhandler.1.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../smartpx/Template_Pack_1/css/spx_layout.css" />
+    <link rel="stylesheet" type="text/css" href="../smartpx/Template_Pack_1/css/spx_fonts.css" />
+    <link rel="stylesheet" type="text/css" href="customize.css" />
+
+    <script>
+        function initValues() {
+            gsap.set("#line1", {
+                opacity: 0
+            });
+        }
+
+
+        function runAnimationIN(IsLoop) {
+            let iconPath = "";
+            let dur = 0.8;
+            initValues();
+            let iconDIV = document.getElementById('icon');
+            let iconVAL = document.getElementById('f2').innerText;
+            iconPath = "img/" + iconVAL.trim();
+            console.log(iconPath);
+            if (iconVAL == '0' || iconVAL == '') {
+                // no icon
+                iconDIV.style.display = 'none';
+            } else {
+                // use icon
+                document.getElementById('f0').style.paddingLeft = '1rem'; // move text a bit closer to icon
+                document.getElementById('f1').style.paddingLeft = '1rem'; // move text a bit closer to icon
+                // console.log('Setting icon video to ' + iconPath);
+                document.getElementById('iconImg').src = iconPath;
+                iconDIV.style.display = 'inline-block';
+            }
+
+
+            gsap.set("#TG", {
+                opacity: 1
+            });
+            gsap.set("#line1", {
+                opacity: 1
+            });
+            gsap.fromTo(
+                "#line1",
+                dur, {
+                    // start value
+                    width: 0
+                }, {
+                    width: function (i, target) {
+                        target.style.width = "auto";
+                        var width = target.offsetWidth - 3;
+                        target.style.width = "0px";
+                        return width;
+                    },
+                    ease: "back.out(2.0)"
+                }
+            );
+
+            gsap.fromTo("#f0", {
+                opacity: 0
+            }, {
+                delay: 0.1,
+                duration: dur - 0.2,
+                opacity: 1,
+                ease: "Power3.easeOut"
+            });
+            gsap.fromTo("#f0", {
+                x: -200
+            }, {
+                delay: 0.1,
+                duration: dur - 0.1,
+                x: 0,
+                ease: "back.out(2.0)"
+            });
+            gsap.set("#line2", {
+                opacity: 1
+            });
+            gsap.fromTo(
+                "#line2",
+                dur, {
+                    // start value
+                    width: 0
+                }, {
+                    width: function (i, target) {
+                        target.style.width = "auto";
+                        var width = target.offsetWidth - 3;
+                        target.style.width = "0px";
+                        return width;
+                    },
+                    ease: "back.out(2.0)"
+                }
+            );
+            gsap.fromTo("#f1", {
+                opacity: 0
+            }, {
+                delay: 0.1,
+                duration: dur - 0.2,
+                opacity: 1,
+                ease: "Power3.easeOut"
+            });
+            gsap.fromTo("#f1", {
+                x: -200
+            }, {
+                delay: 0.1,
+                duration: dur - 0.1,
+                x: 0,
+                ease: "back.out(2.0)"
+            });
+            gsap.fromTo("#iconImg", {
+                // scale: 0,
+                x: 214
+            }, {
+                delay: 0.0,
+                duration: dur - 0.0,
+                // scale: 1,
+                x: 0,
+                ease: "Power3.easeOut"
+            });
+
+            if (IsLoop) {
+                console.log('%c SPX LOOP MODE! Parameter loop=true. Animation will forcefully AUTO-LOOP. ',
+                    'background: #222; color: #bada55');
+                setTimeout(function () {
+                    runAnimationOUT();
+                }, 3000);
+                setTimeout(function () {
+                    runAnimationIN(true);
+                }, 5000);
+            }
+        }
+
+        function runAnimationOUT() {
+            let dur = 0.7;
+            gsap.set("#line1", {
+                delay: dur + 0.0,
+                opacity: 0
+            });
+            gsap.to("#line1", {
+                delay: 0.00,
+                duration: dur + 0.00,
+                width: 0,
+                ease: "back.in(1.2)"
+            });
+            gsap.to("#f0", {
+                delay: 0.00,
+                duration: dur + 0.00,
+                x: -200,
+                ease: "back.in(1.2)"
+            });
+            gsap.set("#line2", {
+                delay: dur + 0.0,
+                opacity: 0
+            });
+            gsap.to("#line2", {
+                delay: 0.00,
+                duration: dur + 0.00,
+                width: 0,
+                ease: "back.in(1.2)"
+            });
+            gsap.to("#f1", {
+                delay: 0.00,
+                duration: dur + 0.00,
+                x: -200,
+                ease: "back.in(1.2)"
+            });
+            gsap.set("#TG", {
+                delay: dur - 0.0,
+                opacity: 0
+            });
+            gsap.fromTo("#iconImg", {
+                // scale: 1,
+                x: 0
+            }, {
+                delay: 0.0,
+                duration: dur + 0.1,
+                // scale: 0,
+                x: 214,
+                ease: "Power4.easeIn"
+            });
+        }
+    </script>
+
+    <style>
+        .tgpos {
+            position: absolute;
+            transform-origin: bottom left;
+            /* border-left: 1.4rem solid var(--spx-accent-color); */
+            display: inline-block;
+            left: 15px;
+            bottom: 15px;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .icon {
+            position: relative;
+            transform-origin: 25% 50%;
+            width: 214px;
+            height: 122px;
+            /* background-color: var(--spx-bgcol1-color); */
+            padding: 0px;
+            margin: 0px 0px;
+            overflow: hidden;
+        }
+
+        .font1 {
+            /*NameCG line1*/
+            font-family: "UI-Bold", Arial, Helvetica, sans-serif;
+            font-size: 3.1rem;
+            padding: 0.1em 2.5rem;
+            line-height: 4rem;
+            text-transform: uppercase;
+        }
+
+        .font2 {
+            /*NameCG Line2*/
+            font-family: "UI-Regular", Arial, Helvetica, sans-serif;
+            font-size: 2.6rem;
+            padding: 0.1rem 2.5rem;
+            margin: 0px;
+            /* text-transform: uppercase; */
+        }
+    </style>
+
+    <script type="text/javascript">
+        window.SPXGCTemplateDefinition = {
+            "description": "Name Title with Icon",
+            "playserver": "OVERLAY",
+            "playchannel": "1",
+            "playlayer": "4",
+            "webplayout": "4",
+            "out": "manual",
+            "uicolor": "7",
+            "DataFields": [{
+                    "field": "f0",
+                    "ftype": "textfield",
+                    "title": "Fullame",
+                    "value": "Angus MacGyver"
+                },
+                {
+                    "field": "f1",
+                    "ftype": "textfield",
+                    "title": "Title",
+                    "value": "Technical Specialist"
+                },
+                {
+                    "field": "f2",
+                    "ftype": "textfield",
+                    "title": "Icon filename.ext",
+                    "value": "theme.png"
+                }
+            ]
+        };
+    </script>
+
+</head>
+
+<body>
+    <div class="SPXWindow SPX_AUTOSIZE" data-spx-remember="Use either SPX_AUTOSIZE or SPX_FIXSIZE">
+        <div id="TG" class="tgpos region SKEW LEFTELEMENTS">
+            <div id="icon" style="display: inline-block;" class="icon fleft">
+                <img id="iconImg" src="" alt="icon" width="214" height="122" style="width:100%;height:100%;">
+            </div>
+            <div class="fleft" style="overflow:hidden">
+                <div id="line1" class="color1 region fleft" style="margin-top: 10px;">
+                    <div class="font1 nowrap ANTISKEW" id="f0"></div>
+                </div>
+                <div id="line2" class="fbreak nowrap region color2">
+                    <!-- <div id="f7_parent" class="color2 font2 fleft" style="vertical-align: top;"> -->
+                        <div class="ANTISKEW font2 nowrap" id="f1"></div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display:none;"  id="f1">Video Engineer</div> -->
+        <div style="display:none;" id="f2">theme.png</div>
+    </div data-info="SPXWindow ends">
+    <script>
+        //runAnimationIN();
+    </script>
+</body>
+
+</html>
