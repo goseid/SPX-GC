@@ -21,7 +21,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>NDA Icon Name</title>
+    <title>NDA VidIcon Name</title>
     <script type="text/javascript" src="../smartpx/Template_Pack_1/js/gsap3.2.6.min.js"></script>
     <script type="text/javascript" src="../smartpx/Template_Pack_1/js/webcg-framework.umd.js"></script>
     <script type="text/javascript" src="../smartpx/Template_Pack_1/js/spx_cmdhandler.1.2.js"></script>
@@ -38,13 +38,13 @@
 
 
         function runAnimationIN(IsLoop) {
-            let iconPath = "";
+            let videoPath = "";
             let dur = 0.8;
             initValues();
             let iconDIV = document.getElementById('icon');
             let iconVAL = document.getElementById('f2').innerText;
-            iconPath = "img/" + iconVAL.trim();
-            console.log(iconPath);
+            videoPath = "img/" + iconVAL.trim();
+            console.log(videoPath);
             if (iconVAL == '0' || iconVAL == '') {
                 // no icon
                 iconDIV.style.display = 'none';
@@ -53,7 +53,14 @@
                 document.getElementById('f0').style.paddingLeft = '1rem'; // move text a bit closer to icon
                 document.getElementById('f1').style.paddingLeft = '1rem'; // move text a bit closer to icon
                 // console.log('Setting icon video to ' + iconPath);
-                document.getElementById('iconImg').src = iconPath;
+                document.getElementById('video').src = videoPath;
+                videoplayer = document.getElementById('video');
+                setTimeout(function () {
+                    videoplayer.load();
+                }, 10);
+                setTimeout(function () {
+                    videoplayer.play();
+                }, 100);
                 iconDIV.style.display = 'inline-block';
             }
 
@@ -130,7 +137,7 @@
                 x: 0,
                 ease: "back.out(2.0)"
             });
-            gsap.fromTo("#iconImg", {
+            gsap.fromTo("#video", {
                 // scale: 0,
                 x: 214
             }, {
@@ -191,7 +198,7 @@
                 delay: dur - 0.0,
                 opacity: 0
             });
-            gsap.fromTo("#iconImg", {
+            gsap.fromTo("#video", {
                 // scale: 1,
                 x: 0
             }, {
@@ -220,7 +227,7 @@
             position: relative;
             transform-origin: 25% 50%;
             width: 214px;
-            height: 122px;
+            height: 120px;
             /* background-color: var(--spx-bgcol1-color); */
             padding: 0px;
             margin: 0px 0px;
@@ -250,7 +257,7 @@
 
     <script type="text/javascript">
         window.SPXGCTemplateDefinition = {
-            "description": "Name Title with Icon",
+            "description": "Name Title with Video Icon",
             "playserver": "OVERLAY",
             "playchannel": "1",
             "playlayer": "4",
@@ -273,7 +280,7 @@
                     "field": "f2",
                     "ftype": "textfield",
                     "title": "Icon filename.ext",
-                    "value": "theme.png"
+                    "value": "theme.webm"
                 }
             ]
         };
@@ -285,7 +292,11 @@
     <div class="SPXWindow SPX_AUTOSIZE" data-spx-remember="Use either SPX_AUTOSIZE or SPX_FIXSIZE">
         <div id="TG" class="tgpos region SKEW LEFTELEMENTS">
             <div id="icon" style="display: inline-block;" class="icon fleft">
-                <img id="iconImg" src="" alt="icon" width="214" height="122" style="width:100%;height:100%;">
+                <!-- <img id="iconImg" src="" alt="icon" width="214" height="122" style="width:100%;height:100%;"> -->
+                <video id="video" width="214" height="120" style="width:100%;height:100%;" autoplay loop>
+                    <source id="loop" src="" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
             </div>
             <div class="fleft" style="overflow:hidden">
                 <div id="line1" class="color1 region fleft" style="margin-top: 10px;">
@@ -299,7 +310,7 @@
             </div>
         </div>
         <!-- <div style="display:none;"  id="f1">Video Engineer</div> -->
-        <div style="display:none;" id="f2">theme.png</div>
+        <div style="display:none;" id="f2">theme.webm</div>
     </div data-info="SPXWindow ends">
     <script>
         runAnimationIN();
