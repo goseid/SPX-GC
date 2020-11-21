@@ -72,7 +72,7 @@
                 }, {
                     width: function (i, target) {
                         target.style.width = "auto";
-                        var width = target.offsetWidth - 3;
+                        var width = target.offsetWidth;
                         target.style.width = "0px";
                         return width;
                     },
@@ -92,7 +92,7 @@
                 x: -200
             }, {
                 delay: 0.1,
-                duration: dur - 0.1,
+                duration: dur - 0.2,
                 x: 0,
                 ease: "back.out(2.0)"
             });
@@ -107,7 +107,7 @@
                 }, {
                     width: function (i, target) {
                         target.style.width = "auto";
-                        var width = target.offsetWidth - 3;
+                        var width = target.offsetWidth;
                         target.style.width = "0px";
                         return width;
                     },
@@ -117,16 +117,16 @@
             gsap.fromTo("#f1", {
                 opacity: 0
             }, {
-                delay: 0.1,
-                duration: dur - 0.2,
+                delay: 0.2,
+                duration: dur - 0.1,
                 opacity: 1,
                 ease: "Power3.easeOut"
             });
             gsap.fromTo("#f1", {
                 x: -200
             }, {
-                delay: 0.1,
-                duration: dur - 0.1,
+                delay: 0.2,
+                duration: dur - 0.5,
                 x: 0,
                 ease: "back.out(2.0)"
             });
@@ -231,17 +231,19 @@
             /*NameCG line1*/
             font-family: "UI-Bold", Arial, Helvetica, sans-serif;
             font-size: 3.1rem;
-            padding: 0.1em 2.5rem;
+            padding: 0.1em 4.5rem;
             line-height: 4rem;
             text-transform: uppercase;
+            text-shadow: none;
         }
 
         .font2 {
             /*NameCG Line2*/
             font-family: "UI-Regular", Arial, Helvetica, sans-serif;
             font-size: 2.6rem;
-            padding: 0.1rem 2.5rem;
+            padding: 0.1rem 3.5rem;
             margin: 0px;
+            text-shadow: none;
             /* text-transform: uppercase; */
         }
     </style>
@@ -287,11 +289,11 @@
             </div>
             <div class="fleft" style="overflow:hidden">
                 <div id="line1" class="color1 region fleft" style="margin-top: 10px;">
-                    <div class="font1 nowrap ANTISKEW" id="f0"></div>
+                    <div class="font1 nowrap ANTISKEW" id="f0">Vivian Prichard</div>
                 </div>
                 <div id="line2" class="fbreak nowrap region color2">
                     <!-- <div id="f7_parent" class="color2 font2 fleft" style="vertical-align: top;"> -->
-                        <div class="ANTISKEW font2 nowrap" id="f1"></div>
+                        <div class="ANTISKEW font2 nowrap" id="f1">Development Director, Notre Dame Academy</div>
                     <!-- </div> -->
                 </div>
             </div>
@@ -300,7 +302,7 @@
         <div style="display:none;" id="f2">theme.png</div>
     </div data-info="SPXWindow ends">
     <script>
-        //runAnimationIN();
+        runAnimationIN();
     </script>
 </body>
 
