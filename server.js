@@ -68,6 +68,7 @@ var pjson = require('./package.json');
 var packageversion = pjson.version;
 const vers = process.env.npm_package_version || packageversion || 'X.X.X';
 global.vers = vers;
+global.excel = {'readtime':0000, 'filename':'', 'data':''}; // used as Excel cache
 
 console.log('\nGC ' + vers + ' is starting. Closing this window/process will stop the server.\n');
 
@@ -484,6 +485,66 @@ app.engine('handlebars', exphbs({
 
 
 
+    // preview span for collapsed view of each rundown item
+    generateCollapsedHeadline(DataFields) {
+        return spx.generateCollapsedHeadline(DataFields);
+
+    /*
+        // console.log('DataField (length: ' + DataFields.length + ')' ,DataFields);
+
+        var html = "";
+        let Iterations = DataFields.length;
+        var Counter = 0;
+        if (DataFields.length>0) { 
+          for (let fieldIndex = 0; fieldIndex < Iterations; fieldIndex++) {
+            if (Counter>2) { break };
+            let fType = DataFields[fieldIndex].ftype || '';
+            let fTitl = DataFields[fieldIndex].title || '';
+            let fValu = DataFields[fieldIndex].value || '';
+            switch ( fType ) {
+              case "hidden":
+                html += '<span id="datapreview_' + fieldIndex + '">' + spx.shortifyString(fTitl) + '</span>';
+                Counter++;
+                break;
+
+              case "textfield":
+                html += '<span id="datapreview_' + fieldIndex + '">' + spx.shortifyString(fValu) + '</span>';
+                Counter++;
+                break;
+
+              case "number":
+                html += '<span id="datapreview_' + fieldIndex + '">' + spx.shortifyString(fValu) + '</span>';
+                Counter++;
+                break;
+
+              case "filelist":
+                html += '<span id="datapreview_' + fieldIndex + '">' + spx.shortifyString(spx.fileNameFromPath(fValu)) + '</span>';
+                Counter++;
+                break;
+
+              case "dropdown":
+                html += '<span id="datapreview_' + fieldIndex + '">' + spx.shortifyString(fValu) + '</span>';
+                Counter++;
+                break;
+              
+              default:
+                break;
+            }
+
+            if (fieldIndex != 2 && html != "") {
+              html += '&nbsp;<span class="delim"></span>&nbsp;';
+            }
+          } // for ended
+        }
+
+        if (html=="") {
+          html = '<span id="datapreview_2"></span>';
+        }
+        return html
+*/
+      },
+
+
     // generate radio buttons for show config templates
     generateColorAccents(selectedIndex, templateIndex)
     {
@@ -632,24 +693,27 @@ app.engine('handlebars', exphbs({
 
     // This is used to populate filelist dropdown control type in templates.
     // Note: these files are returned as http-assets from SPX-GC server
-    // Feature added in 1.0.3.
+    // Feature added in 1.0.3. and improved in 1.0.6
     PopulateFilelistOptions(assetfolder, extension, value){
       let html = "";
       let sel = "";
       let fullFilePath = "";
       let SERVER_URL = 'http://' + ip.address() + ':' + port;
       let assetPath = path.normalize(assetfolder || '');
-      let seleFilePath = path.join(__dirname, 'ASSETS', assetPath, value);
+      let selectedValue = value;
       let fullPath = path.join(__dirname, 'ASSETS', assetPath);
       let fileList = spx.getFileList(fullPath, extension);
       if (fileList) {
         fileList.forEach((fileRef,index) => {
-          console.log('fileRef');
-          fullFilePath = path.join(__dirname, 'ASSETS', assetPath, fileRef);
-          if (fullFilePath == seleFilePath) {
+          fullFilePath = assetfolder + fileRef;
+          if (assetfolder.substr(assetfolder.length - 1)!="/") {
+            assetfolder = assetfolder + "/";
+          }
+          sel = "";
+          if (fullFilePath == selectedValue) {
             sel = 'selected';
           }
-          html += '<option value="' + SERVER_URL + assetfolder + fileRef + '" ' + sel + '>' + fileRef  + '</option>';
+          html += '<option value="' + assetfolder + fileRef + '" ' + sel + '>' + fileRef  + '</option>';
         });
       } 
       return html
@@ -698,6 +762,9 @@ global.user = "";
 // Router files
 const ROUTEfiles = require('./routes/routes-api.js');
 app.use('/api/', ROUTEfiles);
+
+const ROUTEpubAPIv1 = require('./routes/routes-api-v1.js');
+app.use('/api/v1/', ROUTEpubAPIv1);
 
 const ROUTEapp = require('./routes/routes-application.js');
 app.use('/', ROUTEapp);

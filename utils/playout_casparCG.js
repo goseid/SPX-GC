@@ -6,6 +6,10 @@ const fs = require('fs');
 const path = require('path')
 const moment = require('moment');
 
+// 1.0.7:
+// const ip = require('ip') // for localhost IP address
+
+
 
 module.exports = {
 
@@ -66,11 +70,15 @@ module.exports = {
   playoutController: function (data){
     // We get data object which has
     // - data.command (ADD | STOP | UPDATE)
-    let GFX_Teml = data.relpathCCG;
+
+    // let GFX_Teml = data.relpathCCG; // before  1.0.7
+    // let GFX_Teml = 'http://' + ip.address() + ':' + config.general.port + '/templates/' + data.relpathCCG + '.html'; // changed to http in 1.0.7
+    let GFX_Teml = 'http://localhost:' + config.general.port + '/templates/' + data.relpathCCG + '.html'; // changed to http in 1.0.7
     let GFX_Serv = data.playserver;
     let GFX_Chan = data.playchannel;
     let GFX_Laye = data.playlayer;
     let DataType = data.dataformat;
+    let InvFunct = data.invoke;
     data.command = data.command.toUpperCase();
 
     logger.info('CasparCG playoutController - command ' + data.command + "', Template: '" + GFX_Teml, "', CasparCG: " + GFX_Serv + ", " + GFX_Chan + ", " + GFX_Laye);
@@ -131,6 +139,10 @@ module.exports = {
         case 'NEXT':
           global.CCGSockets[this.getSockIndex(data.playserver)].write('CG ' + GFX_Chan + '-' + GFX_Laye + ' NEXT 0\r\n');
           break;
+
+        case 'INVOKE':
+            global.CCGSockets[this.getSockIndex(data.playserver)].write('CG ' + GFX_Chan + '-' + GFX_Laye + ' INVOKE 1 \"' + InvFunct + '\"\r\n');
+            break;
 
         default:
           logger.warn('CCG/Control (util) - Unknown command: ' + data.command);

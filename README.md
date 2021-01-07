@@ -2,7 +2,7 @@
 
 ## Manage and control graphics for CasparCG and streaming applications.
 
-> Readme updated Nov 05 2020. See [RELEASE_NOTES.md](RELEASE_NOTES.md) for latest changes (v.1.0.4).
+> Readme updated Jan 02 2021. See [RELEASE_NOTES.md](RELEASE_NOTES.md) for latest changes (v.1.0.8).
 
 
 **SPX-GC** is professional graphics controller for live television productions and web streaming. Browser based GUI can control HTML graphics templates on  [CasparCG](https://github.com/CasparCG/) server(s) and/or live stream applications such as [OBS](https://obsproject.com/), [vMix](https://www.vmix.com/) or [Wirecast](https://www.telestream.net/wirecast/).
@@ -14,7 +14,7 @@ _SPX-GC is pronounced __G.C.__ [dʒiː.siː] or just "geesee"_ 😉
 ---
 
 ### Table of Contents
-- [LIVE DEMO](#demo)
+- [LIVE DEMO](#demo) is online again 🔥
 - [Screenshots](#screenshots)
 - Install [pre-built packages](#install) for Windows, Mac or Linux.  Or build from [source code](#npminstall).
 - [Run multiple instances](#multipleinstances)
@@ -22,6 +22,8 @@ _SPX-GC is pronounced __G.C.__ [dʒiː.siː] or just "geesee"_ 😉
 - [Projects and rundowns](#dataroot)
 - [HTML templates](#templates) and [template definition](#templatedefinition)
 - [Custom controls](#projectextras)
+- [Using SPX-GC with OBS (or vMix, Wirecast, XSplit...)](#streaming)
+- [Control with external devices (Stream Deck etc)](#controlApi)
 - [Product roadmap](#roadmap)
 - [Issues and Feedback](#feedback)
 - [MIT License](#license)
@@ -38,7 +40,7 @@ Originally SPX-GC was developed by [SmartPX](https://smartpx.fi) for [YLE](https
 ---
 <a id="demo"></a>
 ## Live demo
-See a **LIVE DEMO** of CG v1.0.4 at http://35.228.47.121:5000/ Please be aware there is just _one instance_ running for demo purposes, so expect clashes and overall quirky experience if multiple users are logged in at once. Changes made in demo are reset automatically few times a day. (Also pay attention to the version number, it may not be the latest version.)
+See a **LIVE DEMO** of CG v1.0.8 at http://35.228.47.121:5000/ Please be aware there is just _one instance_ running for demo purposes, so expect clashes and overall quirky experience if multiple users are logged in at once. Changes made in demo are reset automatically few times a day. (Also pay attention to the version number, it may not be the latest version.)
 
 ---
 
@@ -64,9 +66,9 @@ SPX-GC can be installed using a **ready-to-go binary package** which includes al
 
 | Operating system | Zip file| Build date | Notes |
 | ------ | ------ | ----- | ----- |
-| Windows  | [SPX-GC_1_0_2_win64.zip](   https://storage.googleapis.com/spx-gc-bucket-fi/installers/1.0/SPX-GC_1_0_2_win64.zip   ) | Oct 06 2020 | Most tested version.
-| MacOS    | [SPX-GC_1_0_2_macos64.zip]( https://storage.googleapis.com/spx-gc-bucket-fi/installers/1.0/SPX-GC_1_0_2_macos64.zip ) | Oct 06 2020 | Dataroot and config.json may be generated to user's home directory at first launch and app will not run properly. Exit, move config.json and DATAROOT folder to correct folder and edited config.json manually to reflect these path changes.  [Issue (#3)](/../../issues/3).
-| Linux   | [SPX-GC_1_0_2_linux64.zip]( https://storage.googleapis.com/spx-gc-bucket-fi/installers/1.0/SPX-GC_1_0_2_linux64.zip ) | Oct 06 2020 | Tested with some flavours of Debian and Ubuntu but user's input is appreciated here, see [feedback](#feedback). |
+| Windows  | [SPX-GC_1_0_8_win64.zip](   https://storage.googleapis.com/spx-gc-bucket-fi/installers/1.0/SPX-GC_1_0_8_win64.zip   ) | Dec 30 2020 | The app is cross platform and is mostly developed and tested on Windows. Approx 56% users are on Windows.
+| MacOS    | [SPX-GC_1_0_8_macos64.zip]( https://storage.googleapis.com/spx-gc-bucket-fi/installers/1.0/SPX-GC_1_0_8_macos64.zip ) | Dec 30 2020 | Dataroot and config.json may be generated to user's home directory at first launch and app will not run properly. Exit, move DATAROOT-, LOG-, locales- and ASSETS- folders to user's home directory, remove config.json and restart to generate a new config.json.  [Issue (#3)](/../../issues/3).
+| Linux   | [SPX-GC_1_0_8_linux64.zip]( https://storage.googleapis.com/spx-gc-bucket-fi/installers/1.0/SPX-GC_1_0_8_linux64.zip ) | Dec 30 2020 | Tested with some flavours of Debian and Ubuntu but user's input is appreciated here, see [feedback](#feedback). 38% of users are on Linux|
 
 ## Option 1: **Install a pre-built package**
 * Download a zip-file for  your system using one of the links above.
@@ -259,7 +261,9 @@ An example `config.json` of the SPX-GC server
 **templatefolder** contains the HTML templates for SPX-GC. To make CasparCG work with these templates, the easiest way is to configure CasparCG to use this folder as it's template folder.
 See [this note](#fileprotocol).
 
-**langfile** is a filereference in locales-folder for a JSON file containing UI strings in that language. You can copy an existing file to another name and modify it's contents. Folder is scanned at server start and files are shown in the configuration as language options.
+**langfile** is a file reference in locales-folder for a JSON file containing UI strings in that language. Folder is scanned at server start and files are shown in the configuration as language options.
+
+<img src="https://static.thenounproject.com/png/1713999-200.png" align="right" width="50" style="vertical-align:middle;margin-right:10px; margin-top:10px">If you want to add your own language you have to options: You can copy an existing file to another name and modify it's contents or better yet: make a copy of a [Google Sheet language document](https://docs.google.com/spreadsheets/d/1I5sJW1vTCpBe2WyqxUxl42Lyc6tsYf0-VbiDFIgsnvA/edit#gid=1071261648) of locale strings and use that to create the locale file. You can also **contribute** to the project by submitting your language back to the project. See the Google Sheet for instructions.
 
 **loglevel** default value is `info`. Other possible values are `error` (least), `warn`, `verbose` and `debug` (most log data). All log messages are stored into log files in logfolder. The active file is named `access.log`. Log files can be useful in troubleshooting.
 
@@ -445,6 +449,10 @@ TemplateDefinition configures how a template is supposed to work within SPX-GC; 
         "dataformat": "json",
         "DataFields": [
             {
+                "ftype" : "instruction",
+                "value" : "A example demo template definition. Learn what it does and make use of it's capabilities."
+            },
+            {
                 "field" : "f0",
                 "ftype" : "textfield",
                 "title" : "Info text",
@@ -473,8 +481,7 @@ TemplateDefinition configures how a template is supposed to work within SPX-GC; 
                 "value" : "First line\nSecond line\n\nFourth one"
             },
             {
-                "ftype" : "divider",
-                "title" : "This is a divider",
+                "ftype" : "divider"
             },
             {
                 "field": "f3",
@@ -483,6 +490,12 @@ TemplateDefinition configures how a template is supposed to work within SPX-GC; 
                 "assetfolder" : "/media/images/bg/" ,
                 "extension" : "png",
                 "value": "/media/images/bg/checker.png",
+            },
+            {
+                "field": "f4",
+                "ftype": "number",
+                "title": "Rotation degrees",
+                "value": "45",
             }
         ]
     };
@@ -514,15 +527,38 @@ TemplateDefinition configures how a template is supposed to work within SPX-GC; 
 | `dropdown` | A dropdown selector list. Options is an _items_ array, each consisting of _text_ (which is visible) and the  _value_ (which the template will use). The default selection is defined as `value` and it must be one of the values in the _items_ array. See an example definition above. | `"items":[ {"text": "Hundred", "value": 100}, {"text": "Dozen", "value": 12} ]` |
 | `textarea`  | A multiline text control which accepts _return_ key for new lines. (Added in 1.0.2)| `First line \n Second line` |
 | `filelist` | A dropdown selector list for files of of given type _extension_ in an _assetfolder_ within ASSETS -folderstructure of SPX-GC. This is useful for picking images or other media files in templates. (Added in 1.0.3) | `sport_logo.png, news_logo.png` |
-| `divider` | A utility ftype to add a visual divider to a template. Can be used to create visual seqments for ease of use. (Added in 1.0.3) | `Color options below` |
-
-
+| `divider` | A utility ftype to add a visual divider to a template. Can be used to create visual seqments for ease of use. (Added in 1.0.3) | |
+| `instruction` | _Value_ can be used as a longer help text on the template but does not have any other functionality. (Added in 1.0.6) | `Max 100 characters to the field below.`  |
+| `number` | _Value_ is exposed as a number field in the template UI. (Added in 1.0.7) | `45`  |
 
 
 > **Note** additional user interface controls may be added in future releases.
 
 
 ----
+# Using SPX-GC with OBS / vMix / Wirecast... <a id="streaming"></a>
+SPX-GC's animated graphics and overlays can be integrated used in streaming and videoconferencing with any video- or streaming application which has a support for "Browser" or "HTML Sources". SPX-GC provides a URL address which is entered to the streaming software as a layer / input / source. In OBS use `Browser source`, in vMIX it's called `Web Browser input` and in XSplit it's a `Webpage source`... 
+```
+http://localhost:5000/renderer
+```
+
+If you have several inputs (for instance for multiple presenters) you can limit which layers get's rendered to different screens with the `layers` parameter in Renderer url, for instance:
+```
+http://localhost:5000/renderer/?layers=[2,4,20]
+```
+
+----
+# Control SPX-GC with external devices such as Elgato Stream Deck... <a id="controlApi"></a>
+
+<img align="left" width="100" height="100" src="screenshots/streamdeck.png">
+SPX-GC (v.1.0.8+) rundowns can be loaded and controlled with external devices with http-get commands. 
+See available commands here:
+
+```
+http://localhost:5000/api/v1
+```
+
+
 
 # Issues and Feedback <a id="feedback"></a>
 Github [issue tracker](https://github.com/TuomoKu/SPX-GC/issues) should be used for bug reports. For other feedback such as feature requests or other comments (for now at least) please use Google Forms feedback form at <A href="https://forms.gle/T26xMFyNZt9E9S6d8">https://forms.gle/T26xMFyNZt9E9S6d8</A> or directly by email to tuomo@smartpx.fi.
@@ -540,14 +576,14 @@ Github [issue tracker](https://github.com/TuomoKu/SPX-GC/issues) should be used 
 # Roadmap <a id="roadmap"></a>
 New releases will try address found issues and bugs in older versions and they will also introduce new features and functionality. See table for some planned features and use [feedback](#feedback) to submit suggestions.
 
-A marketplace for SPX-GC compatible HTML -templates and plugins will open by the end of 2020. 
+A marketplace for SPX-GC compatible HTML -templates and plugins will open ~~by the end of 2020~~ soon. 
 
 > When a new version becomes available it will be promoted on the Welcome page of the application (if access to internet). Several versions can be installed (into different folders) and if there are no backwards compatibility issues between versions they can be configured to use the same dataroot and template -folder. 
 
 
 | Release | Planned features (subject to change)| Timeframe |
 | ------ | ------ | ----- |
-| 1.1  | Mac install folder [issue (#3)](/../../issues/3) fix . Help page update, internal ~~logic change to fix [playlist item issue (#1)](/../../issues/1)~~, http protocol for CasparCG templates, simple rundown view for mobile / tablet browsers, automatically running rundowns, item grouping, ~~textarea control~~, ~~item~~ / file duplication. Project and ~~rundown~~ rename. | Q4/2020 |
+| 1.1  | Mac install folder [issue (#3)](/../../issues/3) fix . Help page update, internal ~~logic change to fix [playlist item issue (#1)](/../../issues/1)~~, ~~http protocol for CasparCG templates~~, simple rundown view for mobile / tablet browsers, automatically running rundowns, item grouping, ~~textarea control~~, ~~item / file duplication~~. Project and ~~rundown~~ rename. | Q1/2021 |
 | X.X  | Under consideration: mediafile picker, video playback control templates, additional preview modes (while editing, simulation, rtsp stream), MIDI controller integration, global extras editor in appconfig, public API for controls, HTML template marketplace. Video tutorials. Knowledgebase. Forum. Slack support channel. Free lunches. | TBD |
 
 Strikethrough items are done.
@@ -556,7 +592,7 @@ Strikethrough items are done.
 ----
 
 # MIT License <a id="license"></a>
-Copyright 2020 Tuomo Kulomaa <tuomo@smartpx.fi>
+Copyright 2020-2021 Tuomo Kulomaa <tuomo@smartpx.fi>
 
 This project is licensed under the terms of the MIT license.
 See [LICENSE.txt](LICENSE.txt)
